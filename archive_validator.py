@@ -5,6 +5,7 @@ from functools import reduce
 from deepdiff import DeepDiff
 import zipfile
 import shutil
+import re
 
 
 def get_yaml_structure(filename: str):
@@ -51,7 +52,10 @@ if __name__ == "__main__":
     args  = sys.argv
     if len(args) < 2:
         exit("[ERROR] No archive is specified")
-    with zipfile.ZipFile(args[1],"r") as zip_ref:
+    archive_name = args[1]
+    if not re.match("^.*[.]zip$", archive_name):
+        exit("[ERROR] The archive should be a .zip file")
+    with zipfile.ZipFile(archive_name,"r") as zip_ref:
         zip_ref.extractall(TEST_DIR_NAME)
     yaml_structure = get_yaml_structure(YAML_REF_FLIE)
     dir_structure = compress(get_directory_structure(TEST_DIR_NAME))
