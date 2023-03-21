@@ -59,7 +59,7 @@ if __name__ == "__main__":
         zip_ref.extractall(TEST_DIR_NAME)
     yaml_structure = get_yaml_structure(YAML_REF_FLIE)
     dir_structure = compress(get_directory_structure(TEST_DIR_NAME))
-    errors = DeepDiff(yaml_structure, dir_structure[TEST_DIR_NAME])
+    errors = DeepDiff(yaml_structure, dir_structure[TEST_DIR_NAME], ignore_order=True)
     if errors != {}:
         print(f"The archive is not properly structured: {errors}")
     else:
